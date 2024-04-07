@@ -19,10 +19,60 @@ class Registro extends StatefulWidget {
 }
 
 class _RegistroState extends State<Registro> {
+  final datos = Supabase.instance.client.from('contraseñas').select('''contraseñas,titulos,descripcion,id_usuario''');
+  final controlregistrocorreo = TextEditingController();
+  final controlregistrocontra = TextEditingController();
+  final controlregistrocontrarepetir = TextEditingController();
+
   @override
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Registro de usuario'),),
+      body: Center(
+        child: FutureBuilder(future: datos, builder: (context, snapshot) {
+          if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+         return const CircularProgressIndicator();
+        }
+        return Column(
+          children: [
+            const SizedBox(height: 50,),
+        SizedBox(
+          width: 350,
+        child:TextField(
+          controller: controlregistrocorreo,
+          decoration: const InputDecoration(labelText: 'Ingrese su correo',border: OutlineInputBorder()),
+          keyboardType: TextInputType.emailAddress,
+        )),
+        const SizedBox(height: 30,),
+        SizedBox(
+          width: 350,
+        child: TextField(
+          controller: controlregistrocontra,
+          decoration: const InputDecoration(labelText: 'Ingrese la contraseña',border: OutlineInputBorder()),
+          obscureText: true,
+        )),
+        const SizedBox(height: 30,),
+        SizedBox(
+          width: 350,
+        child: TextField(
+          controller: controlregistrocontrarepetir,
+          decoration: const InputDecoration(labelText: 'Repita la contraseña contraseña',border: OutlineInputBorder()),
+          obscureText: true,
+        )),
+        const SizedBox(height: 40,),
+        MaterialButton(onPressed: () async {
+          //final sesion = 
+          //supabase.auth.signUp(password: contracontrol.text,email: emailcontrol.text);
+        }, child: const Text('Ingresar'),),
+          ],
+        );
+        }),
+      ),
     );
   }
 }

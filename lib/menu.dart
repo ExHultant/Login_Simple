@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:login/pantallas/usuario.dart' as usuario;
 import 'package:login/pantallas/agregarcontra.dart' as contras;
+import 'package:login/pantallas/perfil.dart' as perfil;
 final supabase = Supabase.instance.client;
 
 
@@ -42,7 +43,7 @@ class _MenuState extends State<Menu> {
         icon: const Icon(Icons.supervised_user_circle_outlined),
         ),
         SizedBox(
-          width: 350,
+          width: 320,
           child:TextField(
           controller: controlbuscador,
           decoration:const InputDecoration (
@@ -66,8 +67,14 @@ class _MenuState extends State<Menu> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget> [
             IconButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()));
+            }, icon: const Icon(Icons.article_sharp)),
+            IconButton(onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const contras.Contras()));
-            }, icon: const Icon(Icons.add))
+            }, icon: const Icon(Icons.add)),
+            IconButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const perfil.Perfil()));
+            }, icon: const Icon(Icons.boy))
           ],
         ),
       ),
