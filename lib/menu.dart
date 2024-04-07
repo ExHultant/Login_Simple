@@ -25,6 +25,7 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   final controlbuscador = TextEditingController();
+  List<String> listadeopciones = <String> ['Opcion 1','Opcion 2','Opcion 3'];
 
 
   @override
@@ -49,7 +50,15 @@ class _MenuState extends State<Menu> {
             border: OutlineInputBorder()
           )) ,
         ),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
+        IconButton(onPressed: () {
+          DropdownButtonFormField( //Este codigo deberia ser el menu desplegable pero no funca
+            items: listadeopciones.map((String e) {
+              return DropdownMenuItem<String>(value: e, child: const Text('prueba'),);
+            }).toList(),
+            onChanged: (e) {
+            },
+          );
+        }, icon: const Icon(Icons.more_horiz))
       ],),
       bottomNavigationBar: BottomAppBar(
         child: Row(
