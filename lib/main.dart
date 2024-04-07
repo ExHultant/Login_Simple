@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:login/menu.dart' as menu;
+import 'package:login/registro.dart' as registro;
 final supabase = Supabase.instance.client;
 
 
 Future<void> main() async {
   await Supabase.initialize(
-    url: 'https://xyzcompany.supabase.co',
-    anonKey: 'public-anon-key',
+    url: 'https://nrkpoxttysbxitcnligl.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ya3BveHR0eXNieGl0Y25saWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE0Njk1MzUsImV4cCI6MjAyNzA0NTUzNX0.UQTzGaDyyCUepnqj2MzxH3XUyTXpsINyuVxDrB_fiYU',
   );
 
   runApp(const MainApp());
@@ -38,10 +40,30 @@ class _LoginState extends State<Login> {
   final emailcontrol = TextEditingController();
   final contracontrol = TextEditingController();
   
+@override
+  void initState() {
+    super.initState();
+    
+    Supabase.instance.client
+        .channel('Like_dislike')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'Like_dislike',
+            callback: (payload) {
+              debugPrint('');
+             
+            })
+        .subscribe();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Center(
-     child: Column(
+     child:
+      Column(
       children: [
         const SizedBox(height: 50,),
         SizedBox(
@@ -61,8 +83,16 @@ class _LoginState extends State<Login> {
         )),
         const SizedBox(height: 40,),
         MaterialButton(onPressed: () async {
-          await supabase.auth.signUp(password: contracontrol.text,email: emailcontrol.text);
-        }, child: const Text('Ingresar'),)
+          //final sesion = 
+          //supabase.auth.signUp(password: contracontrol.text,email: emailcontrol.text);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const menu.Menu()));
+        }, child: const Text('Ingresar'),),
+        const SizedBox(height: 20,),
+        MaterialButton(onPressed: () async {
+          //final sesion = 
+          //supabase.auth.signUp(password: contracontrol.text,email: emailcontrol.text);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const registro.Registro()));
+        }, child: const Text('Registrarte'),),
       ],
     ));
   }
