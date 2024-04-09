@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math';
+import 'package:login/pantallas/perfil.dart' as perfil;
+import 'package:login/menu.dart' as menu;
 final supabase = Supabase.instance.client;
 
 
 Future<void> main() async {
   await Supabase.initialize(
-    url: 'https://nrkpoxttysbxitcnligl.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ya3BveHR0eXNieGl0Y25saWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE0Njk1MzUsImV4cCI6MjAyNzA0NTUzNX0.UQTzGaDyyCUepnqj2MzxH3XUyTXpsINyuVxDrB_fiYU',
+    url: 'https://qndkjfhorupharaphaoa.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZGtqZmhvcnVwaGFyYXBoYW9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI1MDQwMjEsImV4cCI6MjAyODA4MDAyMX0.Fok8bU8EcKUZig0MJZjxQZxOf6ZWnWvjwbzwmRvBU-E',
   );
 
-  runApp(MaterialApp(home: Contras(),));
+  runApp(MaterialApp(home:Contras(),));
 }
 
 String contragenerador({
@@ -70,7 +72,25 @@ class _ContrasState extends State<Contras> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Agregar contraseña'),),
+      appBar: AppBar(title: const Text('Agregar contraseña'),
+      automaticallyImplyLeading: false,),
+            bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget> [
+            IconButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const menu.Menu()));
+            }, icon: const Icon(Icons.article_sharp)),
+            IconButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Contras()));
+            }, icon: const Icon(Icons.add)),
+            IconButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const perfil.Perfil()));
+            }, icon: const Icon(Icons.boy))
+          ],
+        ),
+      ),
       body: Center(
         child:Column(
           children: [
@@ -87,6 +107,8 @@ class _ContrasState extends State<Contras> {
           width: 350,
         child: TextField(
           controller: controldecontra,
+          readOnly: true,
+          enableInteractiveSelection: false,
           decoration: const InputDecoration(border: OutlineInputBorder()),
         )),
         const SizedBox(height: 30,),
@@ -103,12 +125,13 @@ class _ContrasState extends State<Contras> {
           const Text(''),
           ElevatedButton(
           onPressed:() async {
-          await supabase.from('contraseñas').upsert([{'Contraseñas':controldecontra.text, 'titulos':controldetitulo.text, 'descripcion':controldedescripcion.text,'id_usuario':'21541'}]).select('Contraseñas,titulos,descripcion,id_usuario');
+          await supabase.from('contraseñas').upsert([{'contras':controldecontra.text, 'titulos':controldetitulo.text, 'descripcion':controldedescripcion.text}]).select('contras,titulos,descripcion');
           controldecontra.clear();
           controldetitulo.clear();
           controldedescripcion.clear();
           }, 
           child: const Text("Agregar contraseña", style: TextStyle(color: Color.fromARGB(255, 0, 173, 204)),)),
+          SizedBox(height: 40,),
           ElevatedButton(onPressed: () {
             controldecontra.text = contragenerador();
           }, child: const Text('Generar contraseña'))

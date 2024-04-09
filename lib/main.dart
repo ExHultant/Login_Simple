@@ -7,8 +7,8 @@ final supabase = Supabase.instance.client;
 
 Future<void> main() async {
   await Supabase.initialize(
-    url: 'https://nrkpoxttysbxitcnligl.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ya3BveHR0eXNieGl0Y25saWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE0Njk1MzUsImV4cCI6MjAyNzA0NTUzNX0.UQTzGaDyyCUepnqj2MzxH3XUyTXpsINyuVxDrB_fiYU',
+    url: 'https://qndkjfhorupharaphaoa.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZGtqZmhvcnVwaGFyYXBoYW9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTI1MDQwMjEsImV4cCI6MjAyODA4MDAyMX0.Fok8bU8EcKUZig0MJZjxQZxOf6ZWnWvjwbzwmRvBU-E',
   );
 
   runApp(const MainApp());
@@ -45,19 +45,17 @@ class _LoginState extends State<Login> {
     super.initState();
     
     Supabase.instance.client
-        .channel('Like_dislike')
+        .channel('contraseñas')
         .onPostgresChanges(
             event: PostgresChangeEvent.insert,
             schema: 'public',
-            table: 'Like_dislike',
+            table: 'contraseñas',
             callback: (payload) {
               debugPrint('');
              
             })
         .subscribe();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +81,16 @@ class _LoginState extends State<Login> {
         )),
         const SizedBox(height: 40,),
         MaterialButton(onPressed: () async {
-          //final sesion = 
+          //final sesion =
           //supabase.auth.signUp(password: contracontrol.text,email: emailcontrol.text);
+          //final AuthResponse res = 
+          /*await supabase.auth.signUp(
+          email: emailcontrol.text,
+          password: contracontrol.text);*/
           Navigator.push(context, MaterialPageRoute(builder: (context) => const menu.Menu()));
         }, child: const Text('Ingresar'),),
         const SizedBox(height: 20,),
         MaterialButton(onPressed: () async {
-          //final sesion = 
-          //supabase.auth.signUp(password: contracontrol.text,email: emailcontrol.text);
           Navigator.push(context, MaterialPageRoute(builder: (context) => const registro.Registro()));
         }, child: const Text('Registrarte'),),
       ],
